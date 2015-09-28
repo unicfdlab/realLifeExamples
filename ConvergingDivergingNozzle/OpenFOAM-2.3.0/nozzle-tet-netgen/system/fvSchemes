@@ -1,0 +1,86 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         Euler;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+//scalarScheme vanAlbada;
+//vectorScheme vanAlbadaV;
+
+scalarScheme Minmod;
+vectorScheme Minmod;
+
+divSchemes
+{
+    default         none;
+    div((-devRhoReff&U))	  Gauss linear;
+    div((muEff*dev2(T(grad(U))))) Gauss linear;
+    
+    //momentum equation
+    div(phiNeg,U)	Gauss $vectorScheme;
+    div(phiPos,U)	Gauss $vectorScheme;
+
+    //energy equation
+    div(phiNeg,h)	Gauss $scalarScheme;
+    div(phiPos,h)	Gauss $scalarScheme;
+    div(phiNeg,Ek)	Gauss $scalarScheme;
+    div(phiPos,Ek)	Gauss $scalarScheme;
+
+    //continuity equation
+    div(phid_neg,p)	Gauss $scalarScheme;
+    div(phid_pos,p)	Gauss $scalarScheme;
+    
+    div(phi,omega)	Gauss $scalarScheme;
+    div(phi,k)		Gauss $scalarScheme;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         none;
+    
+    reconstruct(psi)		$scalarScheme;
+    reconstruct(p)		$scalarScheme;
+    reconstruct(U)		$vectorScheme;
+    reconstruct(Dp)		$scalarScheme;
+    
+    interpolate(rho)		linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+fluxRequired
+{
+    default	none;
+    p;
+}
+
+// ************************************************************************* //

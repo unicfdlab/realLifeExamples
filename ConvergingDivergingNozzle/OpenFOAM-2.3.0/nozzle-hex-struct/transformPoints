@@ -1,0 +1,6 @@
+transformPoints -scale '(1.0e-3 1.0e-3 1.0e-3)'
+transformPoints -scale '(2.54e-2 2.54e-2 2.54e-2)'
+
+1m = 0.03937inch
+
+geometry done in 1/1000 inch

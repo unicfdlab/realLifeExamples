@@ -1,0 +1,11 @@
+    symmetry-plane
+    {
+	type		symmetryPlane;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+
+
+

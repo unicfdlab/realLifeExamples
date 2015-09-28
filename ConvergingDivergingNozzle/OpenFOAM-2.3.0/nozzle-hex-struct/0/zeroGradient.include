@@ -1,0 +1,18 @@
+
+    vert-outlet
+    {
+        type            zeroGradient;
+    }
+    horiz-outlet
+    {
+        type            zeroGradient;
+    }
+    left-walls
+    {
+        type           zeroGradient;
+    }
+    nozzle-walls
+    {
+        type            zeroGradient;
+    }
+

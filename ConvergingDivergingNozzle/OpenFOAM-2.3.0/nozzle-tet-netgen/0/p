@@ -1,0 +1,88 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 20500;
+
+boundaryField
+{
+    inlet
+    {
+	type            timeVaryingTotalPressure;
+	value           uniform 20501;
+	p0              table
+	7
+	(
+	    (0 20501)
+	    (1e-4 41000)
+	    (2e-4 41000)
+	    (3e-4 82000)
+	    (4e-4 82000)
+	    (5e-4 102500)
+	    (6e-4 102500)
+	);
+	U               U;
+	phi             phi;
+	psi		none;
+	gamma           1.4;
+	
+//	type		fixedValue;
+//	value		uniform 20500;
+    }
+    
+    #include "emptySymmetry.include"
+
+    vert-outlet
+    {
+        type            subsonicSupersonicPressureOutlet;
+        value           $internalField;
+        p0              $internalField;
+        U               U;
+        phi             phi;
+        psi		thermo:psi;
+        gamma           1.4;
+        refValue	$internalField;
+        refGradient	uniform 0;
+        valueFraction	uniform 1;
+    }
+    horiz-outlet
+    {
+        type            subsonicSupersonicPressureOutlet;
+        value           $internalField;
+        p0              $internalField;
+        U               U;
+        phi             phi;
+        psi		thermo:psi;
+        gamma           1.4;
+        refValue	$internalField;
+        refGradient	uniform 0;
+        valueFraction	uniform 1;
+    }
+    left-walls
+    {
+        type           zeroGradient;
+    }
+    nozzle-walls
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+
+
+

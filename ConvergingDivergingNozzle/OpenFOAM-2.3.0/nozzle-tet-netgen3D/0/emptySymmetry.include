@@ -1,0 +1,12 @@
+    symmetry-bottom
+    {
+	type		symmetryPlane;
+    }
+    symmetry-side
+    {
+	type		slip;
+    }
+
+
+
+
