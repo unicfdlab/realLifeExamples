@@ -1,0 +1,23 @@
+ami_1
+{
+    type	cyclicAMI;
+    value	$internalField;
+}
+
+ami_2
+{
+    type	cyclicAMI;
+    value	$internalField;
+}
+
+ami_3
+{
+    type	cyclicAMI;
+    value	$internalField;
+}
+
+ami_4
+{
+    type	cyclicAMI;
+    value	$internalField;
+}

@@ -1,0 +1,152 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// List of actions. Each action is a dictionary with e.g.
+// name of set
+    name    rotatingMesh;
+    
+    type    cellSet;
+    
+    action  new;
+
+
+    // Mesh region (non-face connected part of (subset of)mesh)
+    source regionToCell;
+    sourceInfo
+    {
+	set         rotatingMesh;         // name of cellSet giving mesh subset
+	insidePoint (-0.0108 -0.0206 0.0660);    // point inside region to select
+    }
+
+
+actions
+(
+
+    {
+	name	ami1faces;
+	type	faceSet;
+	action	new;
+	source	patchToFace;
+	sourceInfo
+	{
+	    name	ami_1;
+	}
+    }
+
+    {
+	name	rotatingSet;
+	type	cellSet;
+	action	new;
+	source	faceToCell;
+	sourceInfo
+	{
+	    set		ami1faces;
+	    option	any;
+	}
+	//source	boxToCell;
+	//sourceInfo
+	//{
+	//    box	(-23.83e-3 -19.04e-3 -22.91e-3) (-12.51e-3 4.43e-3 -10.155e-3);
+	//}
+	
+    }
+    
+    {
+	name	rotatingMesh;
+	type	cellSet;
+	action	new;
+	source	cellToCell;
+	sourceInfo
+	{
+	    set	rotatingSet;
+	}
+    }
+
+    {
+	name	rotatingMesh;
+	type	cellSet;
+	action	add;
+	source	regionToCell;
+	sourceInfo
+	{
+	    set		rotatingSet;
+	    insidePoint	(-18.17e-3 -7.305e-3 -16.53e-3);
+	}
+    }
+/*
+    // Example:pick up internal faces on outside of cellSet
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+    // Load initial cellSet
+    {
+        name    c0;
+        type    cellSet;
+        action  new;
+        source labelToCell;
+        sourceInfo
+        {
+            value (12 13 56);
+        }
+    }
+
+    // Get all faces in cellSet
+    {
+        name    f0;
+        type    faceSet;
+        action  new;
+        source  cellToFace;
+        sourceInfo
+        {
+            set     c0;
+            option  all;
+        }
+    }
+
+    // Determine inverse cellSet
+    {
+        name    c1;
+        type    cellSet;
+        action  new;
+        source  cellToCell;
+        sourceInfo
+        {
+            set c0;
+        }
+    }
+    {
+        name    c1;
+        type    cellSet;
+        action  invert;
+    }
+
+    // Keep in f0 all faces in c1
+    {
+        name    f0;
+        type    faceSet;
+        action  subset;
+        source  cellToFace;
+        sourceInfo
+        {
+            set     c1;
+            option  all;
+        }
+    }
+*/
+);
+
+// ************************************************************************* //

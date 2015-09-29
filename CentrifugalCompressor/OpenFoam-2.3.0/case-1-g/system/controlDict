@@ -1,0 +1,98 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     mySonicDyMFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.1;
+
+deltaT          0.5e-7;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.25e-4;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+
+CourantType	faceCourant;
+
+libs ("libcompressibleTools.so");
+
+functions
+(
+    pumpStat1
+    {
+	type			PumpStat;
+	
+	enabled			true;
+	
+	log			true;
+	
+	probeFrequency		1;
+	
+	fftProbeFrequency	1024;
+	
+	torquePatchNames	("rotor");
+	
+	inflowPatches		("inlet");
+	
+	outflowPatches		("outlet");
+	
+	timeStart		0.001;
+	
+	timeEnd			0.021;
+	
+	pName			p;
+	
+	TName			T;
+	
+	phiName			phi;
+	
+	rhoName			rho;
+	
+	rhoRef			-1;
+	
+	heatCapacity		1005; // J/kg/K
+	
+	origin			(0 0 0);
+	
+	omega			(11309 0 0);
+    }
+);
+
+// ************************************************************************* //
