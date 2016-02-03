@@ -1,0 +1,104 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 100;
+
+boundaryField
+{
+    INLET
+    {
+        type            timeVaryingTotalPressure;
+	value           uniform 100;
+	p0              table
+	22
+	(
+	    (0 100)
+	    (10 200)
+	    (20 300)
+	    (30 400)
+	    (50 500)
+	    (60 600)
+	    (70 700)
+	    (80 800)
+	    (90 900)
+	    (100 1000)
+	    (200 2000)
+	    (300 2000)
+	    (400 3000)
+	    (500 3000)
+	    (600 5000)
+	    (700 5000)
+	    (800 7500)
+	    (900 7500)
+	    (1000 10000)
+	    (2000 10000)
+	    (3000 20000)
+	    (4000 20000)
+	);
+        U               U;
+	phi             phi;
+	useGamma	true;
+	compressible    true;
+    }
+    
+    OUTLET
+    {
+        type            subsonicSupersonicPressureOutlet;
+        value           $internalField;
+        p0              $internalField;
+        U               U;
+        phi             phi;
+        psi		thermo:psi;
+        gamma           1.67;
+        refValue	$internalField;
+        refGradient	uniform 0;
+        valueFraction	uniform 1;
+    }
+    
+    WALL
+    {
+        type            zeroGradient;
+    }
+    
+    NWALL
+    {
+        type            zeroGradient;
+    }
+    
+    DEPOSITOR
+    {
+        type            zeroGradient;
+    }
+    
+    axi_symm-r
+    {
+	type		wedge;
+    }
+     
+    axi_symm-f
+    {
+	type		wedge;
+    }
+    
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //

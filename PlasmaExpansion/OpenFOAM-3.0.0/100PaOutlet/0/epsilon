@@ -1,0 +1,66 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -3 0 0 0 0];
+
+internalField   uniform 67.93;
+
+boundaryField
+{
+    INLET
+    {
+        type            turbulentMixingLengthDissipationRateInlet;
+        mixingLength    0.00036;
+        value           uniform 67.93;
+    }
+    OUTLET
+    {
+        type            inletOutlet;
+        inletValue      uniform 67.93;
+        value           uniform 67.93;
+    }
+    DEPOSITOR
+    {
+        type            epsilonWallFunction;
+        value           uniform 67.93;
+    }
+    WALL
+    {
+        type            epsilonWallFunction;
+        value           uniform 67.93;
+    }
+    NWALL
+    {
+        type            epsilonWallFunction;
+        value           uniform 67.93;
+    }
+    axi_symm-r
+    {
+        type            wedge;
+    }
+    axi_symm-f
+    {
+        type            wedge;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,84 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         localEuler;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+scalarAdvScheme Minmod;
+
+divSchemes
+{
+    default         none;
+    div((-devRhoReff&U))	  Gauss linear;
+    div((muEff*dev2(T(grad(U))))) Gauss linear;
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+    
+    //momentum equation
+    div(phiNeg,U)	Gauss $scalarAdvScheme;//vanLeer;
+    div(phiPos,U)	Gauss $scalarAdvScheme;//vanLeer;
+
+    //energy equation
+    div(phiNeg,h)	Gauss $scalarAdvScheme;//vanLeer;
+    div(phiPos,h)	Gauss $scalarAdvScheme;//vanLeer;
+    div(phiNeg,Ek)	Gauss $scalarAdvScheme;//vanLeer;
+    div(phiPos,Ek)	Gauss $scalarAdvScheme;//vanLeer;
+
+    //continuity equation
+    div(phid_neg,p)	Gauss $scalarAdvScheme;//vanLeer;
+    div(phid_pos,p)	Gauss $scalarAdvScheme;//vanLeer;
+    
+    div(phi,epsilon)   Gauss $scalarAdvScheme;//vanLeer;
+    div(phi,k)	       Gauss $scalarAdvScheme;//vanLeer;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default        none;// limitedLinear psi 1.0;//none;
+    
+    interpolate(rho)		linear;
+    interpolate((rho*U))	linear;
+    
+    reconstruct(psi)		$scalarAdvScheme; //vanLeer;
+    reconstruct(p)		$scalarAdvScheme; //vanLeer;
+    reconstruct(U)		$scalarAdvScheme; //vanLeerV;
+    reconstruct(Dp)		$scalarAdvScheme; //vanLeer;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+fluxRequired
+{
+    default	none;
+    p;
+}
+
+// ************************************************************************* //
