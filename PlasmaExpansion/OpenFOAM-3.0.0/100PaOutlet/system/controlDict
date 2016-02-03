@@ -51,8 +51,8 @@ maxCo           0.5;
 
 maxDeltaT       1e-3;
 
-rDeltaTSmoothingCoeff 0.0001
-//rDeltaTSmoothingCoeff 0.005;;
+rDeltaTSmoothingCoeff 0.0001;
+//rDeltaTSmoothingCoeff 0.005;
 
 rDeltaTDampingCoeff	0.7;
 
